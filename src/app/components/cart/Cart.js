@@ -1,61 +1,58 @@
 import React from 'react';
 import './Cart.css';
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import { clearCart, removeItemFromCart, setOrder } from '../../../store/ActionCreator';
 
 const Cart = ({ cart, deleteFromCart, order, clear, totalPrice, orderCount }) => {
 
     return (
-        cart.length === 0 ?
-            <div className="cart__title">
-                Cart is empty.
+        cart.length === 0 ? <div className='cart__title'>
+            Cart is empty
         </div>
             :
             <div className='cart'>
-                <div className="cart__title">Your order: </div>
-                <div className="cart__list">
+                <div className='cart__title'>Your order: </div>
+                <div className='cart__list'>
                     {
                         cart.map(item => {
                             const { price, title, url, id, count } = item
                             return (
-                                <div key={id} className="cart__item">
-                                    <img src={url} className="cart__item-img" alt={title} />
-                                    <div className="cart__item-title small">{title}</div>
-                                    <div className="cart__item-price">{count}</div>
-                                    <div className="cart__item-price">{count * price}</div>
-                                    <div className="cart__close"
-                                        onClick={() => deleteFromCart(id)}> &times;</div>
+                                <div key={id} className='cart__item'>
+                                    <img src={url} className='cart__item-img' alt={title} />
+                                    <div className='cart__item-title'>{title}</div>
+                                    <div className='cart__item-price'>{count}</div>
+                                    <div className='cart__item-price'>{price * count}</div>
+                                    <div className='cart__close'
+                                        onClick={() => deleteFromCart(id)}>&times;</div>
                                 </div>
                             )
                         })
                     }
                 </div>
-                <button type="button" className="order" data-bs-toggle="modal" data-bs-target="#order"
-
+                <button type="button" className='order' data-bs-toggle="modal" data-bs-target="#order"
                     onClick={() => order(generateOrder(cart))}>Order</button>
-
-
 
                 <div className="modal fade" id="order" tabIndex="-1" aria-labelledby="order" aria-hidden="true">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title" id="exampleModalLabel">Your order &#8470;: {orderCount} </h5>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                                    onClick={clear}></button>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={clear}
+                                ></button>
                             </div>
                             <div className="modal-body">
                                 {cart.map((item) =>
                                     <div key={item.id}>
-                                        <h5>{item.title}</h5>
+                                        <p>{item.title}</p>
                                         <p>Quantity: {item.count}</p>
-                                        <p>{item.price * item.count} $</p>
-                                        <hr />
+                                        <p>{item.price * item.count}</p>
                                     </div>
                                 )}
-                                <p>Total: {totalPrice} $</p>
+                                <hr />
+                                <p>Total: {totalPrice}</p>
                             </div>
-
                             <div className="modal-footer">
                                 <p>Thank's for your order!</p>
                             </div>
@@ -73,6 +70,7 @@ const mapStateToProps = ({ cart, totalPrice, orderCount }) => {
         orderCount
     }
 }
+
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -92,5 +90,6 @@ const generateOrder = (cart) => {
     })
     return order
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

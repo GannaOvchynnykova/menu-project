@@ -1,10 +1,10 @@
 import './MenuList.css';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getMenu, addItemToCart } from '../../../store/ActionCreator';
-import Loader from '../loader/Loader';
-import Food from '../../img/big-food.jpg';
-import Order from './../order/Order'
+import { getMenu, addItemToCart } from './../../../store/ActionCreator';
+import Loader from './../loader/Loader';
+import Food from './../../img/big-food.jpg'
+import Order from '../order/Order';
 
 
 function MenuList({ menu, isLoading, error, getData, addToCart }) {

@@ -1,6 +1,11 @@
 import Types from './ActionType';
+import axios from 'axios'
 
 const BASE_URL = 'http://localhost:3000'
+
+const client = axios.create({
+    baseURL: 'http://localhost:3000'
+})
 
 export const getMenu = () => {
     return (dispatch) => {
@@ -9,7 +14,25 @@ export const getMenu = () => {
             payload: true
         })
         setTimeout(() => {
-            fetch(`${BASE_URL}/menu`)
+            client.get('/menu')
+                .then(responce =>
+                    dispatch({
+                        type: Types.getMenu,
+                        payload: responce.data
+                    })
+                ).catch((error) => {
+                    dispatch({
+                        type: Types.error,
+                        payload: error.message
+                    })
+                })
+                .finally(() => {
+                    dispatch({
+                        type: Types.changeLoader,
+                        payload: false
+                    })
+                })
+            /* fetch(`${BASE_URL}/menu`)
                 .then((res) => {
                     if (res.ok) {
                         return res.json()
@@ -21,7 +44,6 @@ export const getMenu = () => {
                         type: Types.getMenu,
                         payload: data
                     })
-
                 }).catch((error) => {
                     dispatch({
                         type: Types.error,
@@ -32,8 +54,7 @@ export const getMenu = () => {
                         type: Types.changeLoader,
                         payload: false
                     })
-                })
-
+                }) */
         }, 1500)
     }
 }
